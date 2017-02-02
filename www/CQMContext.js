@@ -311,4 +311,15 @@ CQMContext.prototype._getEntitlementInfo = function(entityNames, successCallback
     exec(successCallback, fail, "CQMContext", "getEntitlementInfo", [entityNames]);
 };
 
+/**
+ * Get all entities that are saved.
+ *
+ * @param {Function} successCallback
+ * @param {Function} errorCallback (OPTIONAL)
+ */
+CQMContext.prototype.getAllSavedEntities = function(successCallback, errorCallback) {
+
+    exec(successCallback, errorCallback, "CQMContext", "getAllSavedEntities", []);
+};
+
 module.exports = new CQMContext();

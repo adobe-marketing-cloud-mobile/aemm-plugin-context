@@ -312,118 +312,54 @@ CQMContext.prototype._getEntitlementInfo = function(entityNames, successCallback
 };
 
 /**
- * Get status for an Entity such as isSavable, isDownloaded, progressPct, progressState. (Current only supports
- * Collection), or for all the collection in an EntityList.
+ * Get status for an Entity such as isSavable, progressPct, progressState. (Current only supports Collection)
  *
  * @param {Entity} or {EntityList} Entity we want to get status for or EntityList we want to get status for.
  * @param {Function} successCallback
  * @param {Function} errorCallback (OPTIONAL)
  */
-CQMContext.prototype.getEntityStatus = function(entityOrEntityList, successCallback, errorCallback) {
-
-    if (entityOrEntityList instanceof Entity) {
-
-        this._getEntityStatus([[entityOrEntityList.type, entityOrEntityList.metadata.entityName]],
-            successCallback, errorCallback);
-
-    } else if (entityOrEntityList instanceof EntityList) {
-
-        var entityNames = [];
-        for (var i = 0; i < entityOrEntityList.entities.length; i++) {
-            entityNames.push([entityOrEntityList.entities[i].type, entityOrEntityList.entities[i].metadata.entityName]);
-        }
-
-        this._getEntityStatus(entityNames, successCallback, errorCallback);
-
-    } else {
-        throw TypeError('Wrong type for parameter object, expected Entity or EntityList');
-    }
-};
-
-CQMContext.prototype._getEntityStatus = function(entityNames, successCallback, errorCallback) {
+CQMContext.prototype.getEntityStatus = function(entity, successCallback, errorCallback) {
 
     var fail = errorCallback && function(code) {
         var ce = new CQMContextError(code);
         errorCallback(ce);
     };
 
-    exec(successCallback, fail, "CQMContext", "getEntityStatus", [entityNames]);
+    exec(successCallback, fail, "CQMContext", "getEntityStatus", [entity.type, entity.metadata.entityName]);
 };
 
 /**
- * Save an Entity or all the collection in an EntityList.
+ * Save an Entity.
  *
- * @param {Entity} or {EntityList} Entity we want to save or EntityList we want to save.
+ * @param {Entity} Entity we want to save.
  * @param {Function} successCallback
  * @param {Function} errorCallback (OPTIONAL)
  */
-CQMContext.prototype.saveEntity = function(entityOrEntityList, successCallback, errorCallback) {
-
-    if (entityOrEntityList instanceof Entity) {
-
-        this._saveEntity([[entityOrEntityList.type, entityOrEntityList.metadata.entityName]],
-            successCallback, errorCallback);
-
-    } else if (entityOrEntityList instanceof EntityList) {
-
-        var entityNames = [];
-        for (var i = 0; i < entityOrEntityList.entities.length; i++) {
-            entityNames.push([entityOrEntityList.entities[i].type, entityOrEntityList.entities[i].metadata.entityName]);
-        }
-
-        this._saveEntity(entityNames, successCallback, errorCallback);
-
-    } else {
-        throw TypeError('Wrong type for parameter object, expected Entity or EntityList');
-    }
-};
-
-CQMContext.prototype._saveEntity = function(entityNames, successCallback, errorCallback) {
+CQMContext.prototype.saveEntity = function(entity, successCallback, errorCallback) {
 
     var fail = errorCallback && function(code) {
         var ce = new CQMContextError(code);
         errorCallback(ce);
     };
 
-    exec(successCallback, fail, "CQMContext", "saveEntity", [entityNames]);
+    exec(successCallback, fail, "CQMContext", "saveEntity", [entity.type, entity.metadata.entityName]);
 };
 
 /**
- * Unsave an Entity or all the collection in an EntityList.
+ * Unsave an Entity.
  *
- * @param {Entity} or {EntityList} Entity we want to unsave or EntityList we want to unsave.
+ * @param {Entity} Entity we want to unsave.
  * @param {Function} successCallback
  * @param {Function} errorCallback (OPTIONAL)
  */
-CQMContext.prototype.unsaveEntity = function(entityOrEntityList, successCallback, errorCallback) {
-
-    if (entityOrEntityList instanceof Entity) {
-
-        this._unsaveEntity([[entityOrEntityList.type, entityOrEntityList.metadata.entityName]],
-            successCallback, errorCallback);
-
-    } else if (entityOrEntityList instanceof EntityList) {
-
-        var entityNames = [];
-        for (var i = 0; i < entityOrEntityList.entities.length; i++) {
-            entityNames.push([entityOrEntityList.entities[i].type, entityOrEntityList.entities[i].metadata.entityName]);
-        }
-
-        this._unsaveEntity(entityNames, successCallback, errorCallback);
-
-    } else {
-        throw TypeError('Wrong type for parameter object, expected Entity or EntityList');
-    }
-};
-
-CQMContext.prototype._unsaveEntity = function(entityNames, successCallback, errorCallback) {
+CQMContext.prototype.unsaveEntity = function(entity, successCallback, errorCallback) {
 
     var fail = errorCallback && function(code) {
         var ce = new CQMContextError(code);
         errorCallback(ce);
     };
 
-    exec(successCallback, fail, "CQMContext", "unsaveEntity", [entityNames]);
+    exec(successCallback, fail, "CQMContext", "unsaveEntity", [entity.type, entity.metadata.entityName]);
 };
 
 /**

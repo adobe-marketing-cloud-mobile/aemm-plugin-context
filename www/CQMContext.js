@@ -52,6 +52,18 @@ var Entity = function(newEntity) {
 };
 
 /**
+ * This class represents entity download progress state
+ */
+var ProgressState = function(state) {
+    this.stateCode = (state !== undefined ? state : null);
+};
+// This needs to be synchronized with native implementations if there are changes
+ProgressState.NONE = 0;
+ProgressState.DOWNLOAD_PAUSED = 1;
+ProgressState.DOWNLOAD_ACTIVE = 2;
+ProgressState.DOWNLOAD_COMPLETE = 3;
+
+/**
  * Get children for this entity
  *
  * @param {Function} successCallback

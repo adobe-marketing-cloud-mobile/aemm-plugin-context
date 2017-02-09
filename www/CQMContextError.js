@@ -33,5 +33,10 @@ CQMContextError.WRONG_ENTITY_TYPE_ERROR = 71;
 CQMContextError.NO_MORE_ENTITY_PAGES_ERROR = 72;
 CQMContextError.ENTITY_PAGE_OUT_OF_DATE_ERROR = 73;
 
+// todo: NOT FINAL!!!!
+CQMContextError.ENTITY_OUT_OF_DATE_ERROR = 99;
+CQMContextError.ENTITY_SAVE_FAILURE = 98;
+CQMContextError.ENTITY_SAVE_CANCELLED = 97;
+
 module.exports = CQMContextError;
 

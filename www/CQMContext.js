@@ -378,14 +378,27 @@ CQMContext.prototype.unsaveEntity = function(entity, successCallback, errorCallb
 };
 
 /**
- * Get all entities that are saved.
+ * Get all entities that can be unsaved. This includes entities that are completely saved, or partially saved.
  *
  * @param {Function} successCallback
  * @param {Function} errorCallback (OPTIONAL)
  */
 CQMContext.prototype.getAllSavedEntities = function(successCallback, errorCallback) {
 
-    exec(successCallback, errorCallback, "CQMContext", "getAllSavedEntities", []);
+    var success = successCallback && function(arrayOfRawEntity) {
+        var listOfEntities = [];
+        for (var i = 0; i < arrayOfRawEntity.length; i++) {
+            listOfEntities.push(new Entity(arrayOfRawEntity[i]));
+        }
+        successCallback(listOfEntities);
+    };
+
+    var fail = errorCallback && function(code) {
+        var ce = new CQMContextError(code);
+        errorCallback(ce);
+    };
+
+    exec(success, fail, "CQMContext", "getAllSavedEntities", []);
 };
 
 module.exports = new CQMContext();

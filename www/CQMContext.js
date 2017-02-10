@@ -345,19 +345,24 @@ CQMContext.prototype.getEntityStatus = function(entity, successCallback, errorCa
  *
  * @param {Entity} Entity we want to save.
  * @param {boolean} If we want to save the entity in the background with no notification (Android only)
- * @param {Function} successCallback
+ * @param {Function} successCallback that will be called everytime there is a progress update.
+ *                  // TODO [alim 2017-02-10]: Agree with other devs on this
+ *                      The callback is given an array that contains two values. [Entity, downloadPct]
  * @param {Function} errorCallback (OPTIONAL)
- * @param {Function} progressCallback (OPTIONAL)
  */
-CQMContext.prototype.saveEntity = function(entity, isSilent, successCallback, errorCallback, progressCallback) {
+CQMContext.prototype.saveEntity = function(entity, isSilent, successCallback, errorCallback) {
+
+    var success = successCallback && function(json) {
+        var returnEntity = new Entity(json.rawEntity)
+        successCallback([returnEntity, json.downloadPct]);
+    };
 
     var fail = errorCallback && function(code) {
         var ce = new CQMContextError(code);
         errorCallback(ce);
     };
 
-    // TODO [2017-02-07]: Add progressCallback
-    exec(successCallback, fail, "CQMContext", "saveEntity", [entity.type, entity.metadata.entityName, isSilent]);
+    exec(success, fail, "CQMContext", "saveEntity", [entity.type, entity.metadata.entityName, isSilent]);
 };
 
 /**

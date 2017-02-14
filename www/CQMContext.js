@@ -397,7 +397,7 @@ CQMContext.prototype.unsaveEntity = function(entity, successCallback, errorCallb
  * @param {Function} successCallback
  * @param {Function} errorCallback (OPTIONAL)
  */
-CQMContext.prototype.getAllSavedEntities = function(successCallback, errorCallback) {
+CQMContext.prototype.getSavedEntities = function(successCallback, errorCallback) {
 
     var success = successCallback && function(arrayOfRawEntity) {
         var listOfEntities = [];
@@ -412,7 +412,7 @@ CQMContext.prototype.getAllSavedEntities = function(successCallback, errorCallba
         errorCallback(ce);
     };
 
-    exec(success, fail, "CQMContext", "getAllSavedEntities", []);
+    exec(success, fail, "CQMContext", "getSavedEntities", []);
 };
 
 module.exports = new CQMContext();

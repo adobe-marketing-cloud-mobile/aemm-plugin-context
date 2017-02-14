@@ -347,7 +347,9 @@ CQMContext.prototype.getEntityStatus = function(entity, successCallback, errorCa
  * @param {boolean} If we want to save the entity in the background with no notification (Android only)
  * @param {Function} successCallback that will be called everytime there is a progress update.
  *                  // TODO [alim 2017-02-10]: Agree with other devs on this
- *                      The callback is given an array that contains two values. [Entity, downloadPct]
+ *                  The callback is given an array that contains two values:
+ *                  1. The latest known entity that was saved
+ *                  2. The download percentage
  * @param {Function} errorCallback (OPTIONAL)
  */
 CQMContext.prototype.saveEntity = function(entity, isSilent, successCallback, errorCallback) {
@@ -366,20 +368,27 @@ CQMContext.prototype.saveEntity = function(entity, isSilent, successCallback, er
 };
 
 /**
- * Unsave an Entity.
+ * Unsave an Entity. Invokes a confirmation dialog before proceeding.
  *
  * @param {Entity} Entity we want to unsave.
- * @param {Function} successCallback
+ * @param {Function} successCallback.
+ *                  // TODO [alim 2017-02-10]: Agree with other devs on this
+ *                  The callback is given the latest known version of the entity that was passed in.
  * @param {Function} errorCallback (OPTIONAL)
  */
 CQMContext.prototype.unsaveEntity = function(entity, successCallback, errorCallback) {
+
+    var success = successCallback && function(json) {
+        var returnEntity = new Entity(json)
+        successCallback(returnEntity);
+    };
 
     var fail = errorCallback && function(code) {
         var ce = new CQMContextError(code);
         errorCallback(ce);
     };
 
-    exec(successCallback, fail, "CQMContext", "unsaveEntity", [entity.type, entity.metadata.entityName]);
+    exec(success, fail, "CQMContext", "unsaveEntity", [entity.type, entity.metadata.entityName]);
 };
 
 /**

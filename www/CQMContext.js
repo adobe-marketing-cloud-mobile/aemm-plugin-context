@@ -368,15 +368,14 @@ CQMContext.prototype.saveEntity = function(entity, isSilent, successCallback, er
 };
 
 /**
- * Unsave an Entity. Invokes a confirmation dialog before proceeding.
+ * Archive an Entity.
  *
- * @param {Entity} Entity we want to unsave.
+ * @param {Entity} Entity we want to archive.
  * @param {Function} successCallback.
- *                  // TODO [alim 2017-02-10]: Agree with other devs on this
  *                  The callback is given the latest known version of the entity that was passed in.
  * @param {Function} errorCallback (OPTIONAL)
  */
-CQMContext.prototype.unsaveEntity = function(entity, successCallback, errorCallback) {
+CQMContext.prototype.archiveEntity = function(entity, successCallback, errorCallback) {
 
     var success = successCallback && function(json) {
         var returnEntity = new Entity(json)
@@ -388,11 +387,11 @@ CQMContext.prototype.unsaveEntity = function(entity, successCallback, errorCallb
         errorCallback(ce);
     };
 
-    exec(success, fail, "CQMContext", "unsaveEntity", [entity.type, entity.metadata.entityName]);
+    exec(success, fail, "CQMContext", "archiveEntity", [entity.type, entity.metadata.entityName]);
 };
 
 /**
- * Get all entities that can be unsaved. This includes entities that are completely saved, or partially saved.
+ * Get all entities that can be archived. This includes entities that are completely saved, or partially saved.
  *
  * @param {Function} successCallback
  * @param {Function} errorCallback (OPTIONAL)

@@ -346,7 +346,6 @@ CQMContext.prototype.getEntityStatus = function(entity, successCallback, errorCa
  * @param {Entity} Entity we want to save.
  * @param {boolean} If we want to save the entity in the background with no notification (Android only)
  * @param {Function} successCallback that will be called everytime there is a progress update.
- *                  // TODO [alim 2017-02-10]: Agree with other devs on this
  *                  The callback is given an array that contains two values:
  *                  1. The latest known entity that was saved
  *                  2. The download percentage

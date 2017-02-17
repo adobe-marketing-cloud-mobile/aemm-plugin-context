@@ -324,7 +324,7 @@ CQMContext.prototype._getEntitlementInfo = function(entityNames, successCallback
 };
 
 /**
- * Get status for an Entity such as isSavable, progressPct, progressState. (Current only supports Collection)
+ * Get status for an Entity such as isSavable, downloadPercent, progressState. (Current only supports Collection)
  *
  * @param {Entity} or {EntityList} Entity we want to get status for or EntityList we want to get status for.
  * @param {Function} successCallback
@@ -337,7 +337,7 @@ CQMContext.prototype.getEntityStatus = function(entity, successCallback, errorCa
         errorCallback(ce);
     };
 
-    exec(successCallback, fail, "CQMContext", "getEntityStatus", [entity.type, entity.metadata.entityName]);
+    exec(successCallback, fail, "CQMContext", "getEntityStatus", [entity.metadata.entityName, entity.type]);
 };
 
 /**
@@ -354,8 +354,9 @@ CQMContext.prototype.getEntityStatus = function(entity, successCallback, errorCa
 CQMContext.prototype.saveEntity = function(entity, isSilent, successCallback, errorCallback) {
 
     var success = successCallback && function(json) {
-        var returnEntity = new Entity(json.rawEntity)
-        successCallback([returnEntity, json.downloadPct]);
+        var returnEntity = new Entity(json.rawEntity);
+        // TODO [alim 2017-02-17]: Progress State enum
+        successCallback([returnEntity, json.downloadPercent, json.progressState]);
     };
 
     var fail = errorCallback && function(code) {
@@ -363,7 +364,7 @@ CQMContext.prototype.saveEntity = function(entity, isSilent, successCallback, er
         errorCallback(ce);
     };
 
-    exec(success, fail, "CQMContext", "saveEntity", [entity.type, entity.metadata.entityName, isSilent]);
+    exec(success, fail, "CQMContext", "saveEntity", [entity.metadata.entityName, entity.type, isSilent]);
 };
 
 /**
@@ -386,7 +387,7 @@ CQMContext.prototype.archiveEntity = function(entity, successCallback, errorCall
         errorCallback(ce);
     };
 
-    exec(success, fail, "CQMContext", "archiveEntity", [entity.type, entity.metadata.entityName]);
+    exec(success, fail, "CQMContext", "archiveEntity", [entity.metadata.entityName, entity.type]);
 };
 
 /**

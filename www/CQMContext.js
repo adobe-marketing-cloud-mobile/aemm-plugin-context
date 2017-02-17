@@ -288,7 +288,7 @@ CQMContext.prototype.getEntity = function(entityName, entityType, forceUpdate, s
 /**
  * Get entitlement information for an Entity (only supports Collection), or for all the collection in an EntityList.
  *
- * @param {Entity} or {EntityList} Entity we want to get entitlement info for or EntityList we want to get entitlement info for.
+ * @param {Entity} or {EntityList} entityOrEntityList Entity we want to get entitlement info for or EntityList we want to get entitlement info for.
  * @param {Function} successCallback
  * @param {Function} errorCallback (OPTIONAL)
  */
@@ -326,7 +326,7 @@ CQMContext.prototype._getEntitlementInfo = function(entityNames, successCallback
 /**
  * Get status for an Entity such as isSavable, downloadPercent, progressState. (Current only supports Collection)
  *
- * @param {Entity} or {EntityList} Entity we want to get status for or EntityList we want to get status for.
+ * @param {Entity} or {EntityList} entity Entity we want to get status for or EntityList we want to get status for.
  * @param {Function} successCallback
  * @param {Function} errorCallback (OPTIONAL)
  */
@@ -343,8 +343,8 @@ CQMContext.prototype.getEntityStatus = function(entity, successCallback, errorCa
 /**
  * Save an Entity.
  *
- * @param {Entity} Entity we want to save.
- * @param {boolean} If we want to save the entity in the background with no notification (Android only)
+ * @param {Entity} entity Entity we want to save.
+ * @param {boolean} isSilent If we want to save the entity in the background with no notification (Android only)
  * @param {Function} successCallback that will be called everytime there is a progress update.
  *                  The callback is given an array that contains two values:
  *                  1. The latest known entity that was saved
@@ -370,7 +370,7 @@ CQMContext.prototype.saveEntity = function(entity, isSilent, successCallback, er
 /**
  * Archive an Entity.
  *
- * @param {Entity} Entity we want to archive.
+ * @param {Entity} entity Entity we want to archive.
  * @param {Function} successCallback.
  *                  The callback is given the latest known version of the entity that was passed in.
  * @param {Function} errorCallback (OPTIONAL)

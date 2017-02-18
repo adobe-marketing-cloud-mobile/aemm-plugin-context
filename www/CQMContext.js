@@ -16,6 +16,7 @@ var argscheck = require('cordova/argscheck'),
     utils = require('cordova/utils'),
     exec = require('cordova/exec'),
     cordova = require('cordova'),
+    CQMDownloadState = require('./cqmdownloadstate'),
     CQMContextError = require('./cqmcontexterror');
 
 channel.createSticky('onCordovaContextInfoReady');
@@ -51,17 +52,6 @@ var Entity = function(newEntity) {
     this.rootPath = newEntity.rootPath;
 };
 
-/**
- * This class represents entity download progress state
- */
-var ProgressState = function(state) {
-    this.stateCode = (state !== undefined ? state : null);
-};
-// This needs to be synchronized with native implementations if there are changes
-ProgressState.NONE = 0;
-ProgressState.DOWNLOAD_PAUSED = 1;
-ProgressState.DOWNLOAD_ACTIVE = 2;
-ProgressState.DOWNLOAD_COMPLETE = 3;
 
 /**
  * Get children for this entity
@@ -324,7 +314,7 @@ CQMContext.prototype._getEntitlementInfo = function(entityNames, successCallback
 };
 
 /**
- * Get status for an Entity such as isSavable, downloadPercent, progressState. (Current only supports Collection)
+ * Get status for an Entity such as isSavable, downloadPercent, downloadState. (Current only supports Collection)
  *
  * @param {Entity} or {EntityList} entity Entity we want to get status for or EntityList we want to get status for.
  * @param {Function} successCallback
@@ -355,8 +345,8 @@ CQMContext.prototype.saveEntity = function(entity, isSilent, successCallback, er
 
     var success = successCallback && function(json) {
         var returnEntity = new Entity(json.rawEntity);
-        // TODO [alim 2017-02-17]: Progress State enum
-        successCallback([returnEntity, json.downloadPercent, json.progressState]);
+        var downloadState = new CQMDownloadState(json.downloadState);
+        successCallback([returnEntity, json.downloadPercent, json.downloadState]);
     };
 
     var fail = errorCallback && function(code) {

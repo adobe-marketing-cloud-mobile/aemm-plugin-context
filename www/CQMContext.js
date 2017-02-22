@@ -314,9 +314,9 @@ CQMContext.prototype._getEntitlementInfo = function(entityNames, successCallback
 };
 
 /**
- * Get status for an Entity such as isSavable, downloadPercent, downloadState. (Current only supports Collection)
+ * Get status for an Entity such as isSavable, downloadPercent, downloadState. (Currently only supports Collection)
  *
- * @param {Entity} or {EntityList} entity Entity we want to get status for or EntityList we want to get status for.
+ * @param {Entity} entity Entity we want to get status for.
  * @param {Function} successCallback
  * @param {Function} errorCallback (OPTIONAL)
  */
@@ -331,11 +331,11 @@ CQMContext.prototype.getEntityStatus = function(entity, successCallback, errorCa
 };
 
 /**
- * Save an Entity.
+ * Save an Entity. (Currently only supports Collection)
  *
  * @param {Entity} entity Entity we want to save.
  * @param {boolean} isSilent If we want to save the entity in the background with no notification (Android only)
- * @param {Function} successCallback that will be called everytime there is a progress update.
+ * @param {Function} successCallback The success callback that will be called everytime there is a progress update.
  *                  The callback is given an array that contains two values:
  *                  1. The latest known entity that was saved
  *                  2. The download percentage
@@ -358,7 +358,7 @@ CQMContext.prototype.saveEntity = function(entity, isSilent, successCallback, er
 };
 
 /**
- * Archive an Entity.
+ * Archive an Entity. (Currently only supports Collection)
  *
  * @param {Entity} entity Entity we want to archive.
  * @param {Function} successCallback.
@@ -382,6 +382,7 @@ CQMContext.prototype.archiveEntity = function(entity, successCallback, errorCall
 
 /**
  * Get all entities that can be archived. This includes entities that are completely saved, or partially saved.
+ * (Currently only supports Collection)
  *
  * @param {Function} successCallback
  * @param {Function} errorCallback (OPTIONAL)

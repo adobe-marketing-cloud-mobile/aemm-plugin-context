@@ -20,6 +20,12 @@
 -->
 # Release Notes
 
+### 1.3.0 (Feb 22, 2017)
+* Add getEntityStatus
+* Add saveEntity
+* Add archiveEntity
+* Add getSavedEntities
+
 ### 1.2.1 (Oct 7, 2016)
 * Fix regex to allow dots, dashes, underscores at end of names
 

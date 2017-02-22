@@ -170,10 +170,7 @@ A method that saves an entity. (Currently only supports Collection)
 | --- | --- | ---|
 | entity | Entity | Entity we want to save. |
 | isSilent | BOOL | If we want to save the entity in the background with no notification (Android only). |
-| successCallback | Function | The success callback that will be called everytime there is a progress update.
- The callback is given an array that contains two values:
- 1. The latest known entity that was saved
- 2. The download percentage|
+| successCallback | Function | The success callback that will be called everytime there is a progress update. The callback is given an array that contains two values: 1. The latest known entity that was saved, 2. The download percentage |
 | errorCallback | Function | The error callback |
 
 ### Supported Platforms

@@ -16,6 +16,7 @@ var argscheck = require('cordova/argscheck'),
     utils = require('cordova/utils'),
     exec = require('cordova/exec'),
     cordova = require('cordova'),
+    CQMDownloadState = require('./cqmdownloadstate'),
     CQMContextError = require('./cqmcontexterror');
 
 channel.createSticky('onCordovaContextInfoReady');
@@ -50,6 +51,7 @@ var Entity = function(newEntity) {
     this.metadata = newEntity.metadata;
     this.rootPath = newEntity.rootPath;
 };
+
 
 /**
  * Get children for this entity
@@ -276,7 +278,7 @@ CQMContext.prototype.getEntity = function(entityName, entityType, forceUpdate, s
 /**
  * Get entitlement information for an Entity (only supports Collection), or for all the collection in an EntityList.
  *
- * @param {Entity} or {EntityList} Entity we want to get entitlement info for or EntityList we want to get entitlement info for.
+ * @param {Entity} or {EntityList} entityOrEntityList Entity we want to get entitlement info for or EntityList we want to get entitlement info for.
  * @param {Function} successCallback
  * @param {Function} errorCallback (OPTIONAL)
  */
@@ -309,6 +311,106 @@ CQMContext.prototype._getEntitlementInfo = function(entityNames, successCallback
     };
 
     exec(successCallback, fail, "CQMContext", "getEntitlementInfo", [entityNames]);
+};
+
+/**
+ * Get status for an Entity such as isSavable, downloadPercent, downloadState. (Currently only supports Collection)
+ *
+ * @param {Entity} entity Entity we want to get status for.
+ * @param {Function} successCallback
+ * @param {Function} errorCallback (OPTIONAL)
+ */
+CQMContext.prototype.getEntityStatus = function(entity, successCallback, errorCallback) {
+
+    argscheck.checkArgs('ofF', 'CQMContext.getEntityStatus', arguments);
+
+    var fail = errorCallback && function(code) {
+        var ce = new CQMContextError(code);
+        errorCallback(ce);
+    };
+
+    exec(successCallback, fail, "CQMContext", "getEntityStatus", [entity.metadata.entityName, entity.type]);
+};
+
+/**
+ * Save an Entity. (Currently only supports Collection)
+ *
+ * @param {Entity} entity Entity we want to save.
+ * @param {boolean} isSilent If we want to save the entity in the background with no notification (Android only)
+ * @param {Function} successCallback The success callback that will be called everytime there is a progress update.
+ *                  The callback is given an array that contains two values:
+ *                  1. The latest known entity that was saved
+ *                  2. The download percentage
+ * @param {Function} errorCallback (OPTIONAL)
+ */
+CQMContext.prototype.saveEntity = function(entity, isSilent, successCallback, errorCallback) {
+
+    argscheck.checkArgs('o*fF', 'CQMContext.saveEntity', arguments);
+
+    var success = successCallback && function(json) {
+        var returnEntity = new Entity(json.rawEntity);
+        var downloadState = new CQMDownloadState(json.downloadState);
+        successCallback([returnEntity, json.downloadPercent, json.downloadState]);
+    };
+
+    var fail = errorCallback && function(code) {
+        var ce = new CQMContextError(code);
+        errorCallback(ce);
+    };
+
+    exec(success, fail, "CQMContext", "saveEntity", [entity.metadata.entityName, entity.type, isSilent]);
+};
+
+/**
+ * Archive an Entity. (Currently only supports Collection)
+ *
+ * @param {Entity} entity Entity we want to archive.
+ * @param {Function} successCallback.
+ *                  The callback is given the latest known version of the entity that was passed in.
+ * @param {Function} errorCallback (OPTIONAL)
+ */
+CQMContext.prototype.archiveEntity = function(entity, successCallback, errorCallback) {
+
+    argscheck.checkArgs('ofF', 'CQMContext.archiveEntity', arguments);
+
+    var success = successCallback && function(json) {
+        var returnEntity = new Entity(json)
+        successCallback(returnEntity);
+    };
+
+    var fail = errorCallback && function(code) {
+        var ce = new CQMContextError(code);
+        errorCallback(ce);
+    };
+
+    exec(success, fail, "CQMContext", "archiveEntity", [entity.metadata.entityName, entity.type]);
+};
+
+/**
+ * Get all entities that can be archived. This includes entities that are completely saved, or partially saved.
+ * (Currently only supports Collection)
+ *
+ * @param {Function} successCallback
+ * @param {Function} errorCallback (OPTIONAL)
+ */
+CQMContext.prototype.getSavedEntities = function(successCallback, errorCallback) {
+
+    argscheck.checkArgs('fF', 'CQMContext.getSavedEntities', arguments);
+
+    var success = successCallback && function(arrayOfRawEntity) {
+        var listOfEntities = [];
+        for (var i = 0; i < arrayOfRawEntity.length; i++) {
+            listOfEntities.push(new Entity(arrayOfRawEntity[i]));
+        }
+        successCallback(listOfEntities);
+    };
+
+    var fail = errorCallback && function(code) {
+        var ce = new CQMContextError(code);
+        errorCallback(ce);
+    };
+
+    exec(success, fail, "CQMContext", "getSavedEntities", []);
 };
 
 module.exports = new CQMContext();

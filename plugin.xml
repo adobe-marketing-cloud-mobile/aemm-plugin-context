@@ -15,6 +15,10 @@
          <clobbers target="cq.mobile.contextError" />
     </js-module>
 
+    <js-module src="www/CQMDownloadState.js" name="cqmdownloadstate">
+        <clobbers target="cq.mobile.downloadState" />
+    </js-module>
+
 	<js-module src="www/CQMContext.js" name="cqmcontext">
             <clobbers target="cq.mobile.context" />
     </js-module>

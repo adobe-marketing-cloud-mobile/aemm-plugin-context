@@ -322,6 +322,8 @@ CQMContext.prototype._getEntitlementInfo = function(entityNames, successCallback
  */
 CQMContext.prototype.getEntityStatus = function(entity, successCallback, errorCallback) {
 
+    argscheck.checkArgs('ofF', 'CQMContext.getEntityStatus', arguments);
+
     var fail = errorCallback && function(code) {
         var ce = new CQMContextError(code);
         errorCallback(ce);
@@ -342,6 +344,8 @@ CQMContext.prototype.getEntityStatus = function(entity, successCallback, errorCa
  * @param {Function} errorCallback (OPTIONAL)
  */
 CQMContext.prototype.saveEntity = function(entity, isSilent, successCallback, errorCallback) {
+
+    argscheck.checkArgs('o*fF', 'CQMContext.saveEntity', arguments);
 
     var success = successCallback && function(json) {
         var returnEntity = new Entity(json.rawEntity);
@@ -367,6 +371,8 @@ CQMContext.prototype.saveEntity = function(entity, isSilent, successCallback, er
  */
 CQMContext.prototype.archiveEntity = function(entity, successCallback, errorCallback) {
 
+    argscheck.checkArgs('ofF', 'CQMContext.archiveEntity', arguments);
+
     var success = successCallback && function(json) {
         var returnEntity = new Entity(json)
         successCallback(returnEntity);
@@ -388,6 +394,8 @@ CQMContext.prototype.archiveEntity = function(entity, successCallback, errorCall
  * @param {Function} errorCallback (OPTIONAL)
  */
 CQMContext.prototype.getSavedEntities = function(successCallback, errorCallback) {
+
+    argscheck.checkArgs('fF', 'CQMContext.getSavedEntities', arguments);
 
     var success = successCallback && function(arrayOfRawEntity) {
         var listOfEntities = [];

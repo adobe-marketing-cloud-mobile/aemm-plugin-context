@@ -108,6 +108,10 @@ var prevEntity = cq.mobile.context.previousEntity;
 ## Context Methods
 - context.getEntity(entityName, entityType, forceUpdate, successCallback, errorCallback)
 - context.getEntitlementInfo(entityOrEntityList, successCallback, errorCallback)
+- context.getEntityStatus(entity, successCallback, errorCallback)
+- context.saveEntity(entity, isSilent, successCallback, errorCallback)
+- context.archiveEntity(entity, successCallback, errorCallback)
+- context.getSavedEntities(successCallback, errorCallback)
  
 ## context.getEntity(entityName, entityType, forceUpdate, successCallback, errorCallback)
 
@@ -135,6 +139,69 @@ If a non collection Entity object is passed, then we will immediately return CQM
 | Parameter | Type | Description |
 | --- | --- | ---|
 | entityOrEntityList | Entity or EntityList | The entity to obtain entitlement information for. Or the entityList that contains a list of entities to obtain entitlement information for. |
+| successCallback | Function | The success callback |
+| errorCallback | Function | The error callback |
+
+### Supported Platforms
+
+- Android
+- iOS
+
+## context.getEntityStatus(entity, successCallback, errorCallback)
+
+A method that returns status for an Entity such as isSavable, downloadPercent, downloadState. (Currently only supports Collection)
+
+| Parameter | Type | Description |
+| --- | --- | ---|
+| entity | Entity | Entity we want to get status for. |
+| successCallback | Function | The success callback |
+| errorCallback | Function | The error callback |
+
+### Supported Platforms
+
+- Android
+- iOS
+
+## context.saveEntity(entity, isSilent, successCallback, errorCallback)
+
+A method that saves an entity. (Currently only supports Collection)
+
+| Parameter | Type | Description |
+| --- | --- | ---|
+| entity | Entity | Entity we want to save. |
+| isSilent | BOOL | If we want to save the entity in the background with no notification (Android only). |
+| successCallback | Function | The success callback that will be called everytime there is a progress update.
+ The callback is given an array that contains two values:
+ 1. The latest known entity that was saved
+ 2. The download percentage|
+| errorCallback | Function | The error callback |
+
+### Supported Platforms
+
+- Android
+- iOS
+
+## context.archiveEntity(entity, successCallback, errorCallback)
+
+A method that archives an entity. (Currently only supports Collection)
+
+| Parameter | Type | Description |
+| --- | --- | ---|
+| entity | Entity | Entity we want to archive. |
+| successCallback | Function | The success callback |
+| errorCallback | Function | The error callback |
+
+### Supported Platforms
+
+- Android
+- iOS
+
+## context.getSavedEntities(successCallback, errorCallback)
+
+A method that returns all entities that can be archived. This includes entities that are completely saved, or partially saved. (Currently only supports Collection)
+
+| Parameter | Type | Description |
+| --- | --- | ---|
 | successCallback | Function | The success callback |
 | errorCallback | Function | The error callback |
 
